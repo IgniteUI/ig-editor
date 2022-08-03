@@ -1,0 +1,31 @@
+{
+  "name": "ig-editor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./serve.js",
+    "build": "node ./build.js",
+    "version": "esbuild --version",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IgniteUI/ig-editor.git"
+  },
+  "author": "Infragistics",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/IgniteUI/ig-editor/issues"
+  },
+  "homepage": "https://github.com/IgniteUI/ig-editor#readme",
+  "devDependencies": {
+    "esbuild": "^0.14.51"
+  },
+  "dependencies": {
+    "igniteui-webcomponents": "^3.3.0",
+    "igniteui-webcomponents-core": "^3.2.3",
+    "monaco-editor": "^0.33.0",
+    "rimraf": "^3.0.2"
+  }
+}

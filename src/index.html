@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            overflow: hidden;
+        }
+
+        #mainContent {
+            display: grid;
+
+            height: 100%;
+            width: 100%;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        #container {
+            grid-column: 1;
+            width: 100%;
+            height: 100%;
+        }
+
+        #frameContainer {
+            grid-column: 2;
+            width: 100%;
+            height: 100%;
+        }
+
+        #contentFrame {
+            width: 100%;
+            height: 100%;
+        }
+    </style>  
+    <link rel="stylesheet" type="text/css" href="index.css" />
+</head>
+<body>
+    <div id="mainContent">
+        <div id="container"></div>
+
+        <div id="frameContainer">
+            <iframe id="contentFrame">
+
+            </iframe>
+        </div>
+    </div>
+
+    @@@insert
+</body>
+</html>
