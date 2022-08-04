@@ -403,5 +403,41 @@ export class EditorManager
 
     constructor(editorContainer: HTMLElement) {
         this._editorContainer = editorContainer;
+
+        window.addEventListener("message", (ev) => {
+            //console.log("received message")
+            //console.log(ev)
+            if (ev.data) {
+                //var msg = JSON.parse(ev.data);
+                var msg = ev.data;
+                if (msg.type == "ready" && this._editor) {
+                    var editorContent = this._editor!.getValue();
+                    if (this.isJsonString(editorContent)) {
+                        if (this.onEditorChanged) {
+                            this.onEditorChanged(editorContent);
+                        }
+                        //window.chrome.webview.postMessage({ type: "valueChanged", value: editorContent });
+                    }
+                }
+                var markers = [];
+                if (msg.warnings) {
+                    var warnings = JSON.parse(msg.warnings).warnings;
+                    for (var i = 0; i < warnings.length; i++) {
+                        console.log(warnings[i]);
+                        markers.push({
+                            startLineNumber: warnings[i].line,
+                            startColumn: warnings[i].column,
+                            endLineNumber: warnings[i].line,
+                            endColumn: warnings[i].endColumn,
+                            message: warnings[i].message,
+                            severity: monaco.MarkerSeverity.Warning
+                        });
+                    }
+                }
+                monaco.editor.setModelMarkers(this._editor!.getModel()!, 'igValidator', markers)
+            } else {
+                monaco.editor.setModelMarkers(this._editor!.getModel()!, 'igValidator', [])
+            }
+        });
     }
 }
