@@ -204,6 +204,10 @@ export class EditorManager
         return null;
     }
 
+    public updateContent(content: string): void {
+        this._editor?.getModel()?.setValue(content);
+    }
+
     public onEditorChanged: ((content: string) => void) | null = null;
 
     public loadEditors(schema: any): void {

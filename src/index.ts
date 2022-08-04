@@ -25,3 +25,14 @@ let contentFrame = document.getElementById("contentFrame");
 
 let contentManager = new ContentManager(contentFrame as HTMLIFrameElement);
 contentManager.loadSurface();
+
+let urlParams = new URLSearchParams(window.location.search);
+if (urlParams.has("github")) {
+    let myParam = urlParams.get('github')!;
+    myParam = "https://raw.githubusercontent.com/" + myParam;
+    fetch(myParam).then((res) => {
+        res.text().then(txt => {
+            editorManager.updateContent(txt);
+        });
+    });
+}
