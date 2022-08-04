@@ -36,3 +36,12 @@ if (urlParams.has("github")) {
         });
     });
 }
+if (urlParams.has("gist")) {
+    let myParam = urlParams.get('gist')!;
+    myParam = "https://gist.githubusercontent.com/" + myParam;
+    fetch(myParam).then((res) => {
+        res.text().then(txt => {
+            editorManager.updateContent(txt);
+        });
+    });
+}
