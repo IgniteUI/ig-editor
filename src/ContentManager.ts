@@ -150,13 +150,21 @@ function loadEventHandler(key, handlerText, allModules) {
             }
     
             #contentArea {
-                display: flex;
-                flex-direction: column;
-                align-items: stretch;
+                display: grid;
+                grid-template-rows: auto auto minmax(0, 1fr);
+                grid-template-columns: minmax(0, 100%);
+            }
+
+            #editor {
+                grid-row: 1;
+            }
+
+            #legend {
+                grid-row: 2;
             }
     
             #content {
-                flex-grow: 1
+                grid-row: 3;
             }
     
             html, body {
