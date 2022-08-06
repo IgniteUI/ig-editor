@@ -20,11 +20,14 @@
   },
   "homepage": "https://github.com/IgniteUI/ig-editor#readme",
   "devDependencies": {
+    "@types/file-saver": "^2.0.5",
     "esbuild": "^0.14.51"
   },
   "dependencies": {
+    "file-saver": "^2.0.5",
     "igniteui-webcomponents": "^3.3.0",
     "igniteui-webcomponents-core": "^3.2.3",
+    "jszip": "^3.10.1",
     "monaco-editor": "^0.33.0",
     "rimraf": "^3.0.2"
   }

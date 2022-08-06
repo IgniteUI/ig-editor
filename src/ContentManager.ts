@@ -130,6 +130,98 @@ function loadEventHandler(key, handlerText, allModules) {
     console.log(c.prototype[key]);
     return c.prototype[key];
 }
+
+
+
+function doExport(platform, code, library, folderTemplate) {
+    console.log("exporting: " + platform);
+    var o = new igCore.CodeGenerationRendererOptions();
+    o.generateFullProject = true;
+    o.library = library;
+
+    var p = 0;
+    switch (platform) {
+        case 'WPF':
+            p = 0;
+            break;
+        case 'Angular':
+            p = 1;
+            break;
+        case 'React':
+            p = 2;
+            break;
+        case 'Web Components':
+        case 'WebComponents':
+            p = 3;
+            break;
+        case 'WindowsForms':
+            p = 4;
+            break;
+        case 'Blazor':
+            p = 5;
+            break;
+    }
+    var gen = new igCore.CodeGeneratingComponentRenderer(p, o);
+    for (var key in igCore) {
+        if (key.indexOf("DescriptionModule") >= 0) {
+            igCore[key].register(gen.context);
+        }
+    }
+    
+    var exporter = new Exporter(igCore.CodeGeneratingImportManager);
+    exporter.loadTemplateFromJson(folderTemplate);
+    
+    var patching = false;
+    if (!window.$oldSetProp) {
+        window.$oldSetProp = igCore.CodeGenerationRendererAdapter.prototype.setPropertyValue;
+        window.$oldSetOrUpdate = igCore.CodeGenerationRendererAdapter.prototype.setOrUpdateCollectionOnTarget;
+        patching = true;
+    }
+
+    var toCamel = (val) => {
+        if (val == null) {
+			return null;
+		}
+		return val.substr(0, 1).toLowerCase() + val.substr(1);
+    };
+
+    if (patching) {
+        var patched = function (target, propertyName, propertyMetadata, value, oldValue, sourceRef) {
+            if (target && target.$type && target.$type.name != 'CodeGenerationItemBuilder') {
+                window.$oldSetProp.call(this, target, toCamel(propertyName), propertyMetadata, value, oldValue, sourceRef);
+                return;
+            }
+            window.$oldSetProp.call(this, target, propertyName, propertyMetadata, value, oldValue, sourceRef);
+        };
+        var patchedSetOrUpdate = function (container, propertyName, propertyMetadata, context, target, value) {
+            let currVal = this.getPropertyValue(target, propertyName);
+            if (currVal == null) {
+                let coll = new igCore.List$1(igCore.Base.$type, 0);
+                let arr = value;
+                for (let j = 0; j < arr.length; j++) {
+                    coll.add1(arr[j]);
+                }
+                this.setPropertyValue(target, propertyName, propertyMetadata, coll, null, null);
+            }
+            else {
+                let arr = value;
+                let coll = currVal;
+                coll.clear();
+                for (let m = 0; m < arr.count; m++) {
+                    coll.add1(arr[m]);
+                }
+            }
+        };
+        igCore.CodeGenerationRendererAdapter.prototype.setPropertyValue = patched;
+        igCore.CodeGenerationRendererAdapter.prototype.setOrUpdateCollectionOnTarget = patchedSetOrUpdate;
+    }
+
+    gen.loadCodeJson(code);
+    gen.emitCode(exporter);
+
+    //console.log(exporter);
+    exporter.download();
+}
     `;
 
     private _contentTemplate: string = `
@@ -180,6 +272,7 @@ function loadEventHandler(key, handlerText, allModules) {
             <igc-component-renderer-container id="content"></igc-component-renderer-container>
         </div>
     
+        <script src="Exporter.js"></script>
         <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
         <script defer src="https://unpkg.com/es-module-shims@0.9.0/dist/es-module-shims.js"></script>
         <script type="importmap-shim">
@@ -211,20 +304,6 @@ function loadEventHandler(key, handlerText, allModules) {
 
             igWC.defineAllComponents();
     
-            {{shared}}
-    
-            var library = null;
-            var validator = null;
-            var old = igCore.EnumUtil.parse;
-            var newParse = function(type, value, ignoreCase) {
-            try {
-            return old(type, value, ignoreCase);
-            } catch (e) {
-            return 0;
-            }
-            };
-            igCore.EnumUtil.parse = newParse;
-    
             var allModules = [{
                 name: "igCore",
                 mod: igCore
@@ -246,6 +325,21 @@ function loadEventHandler(key, handlerText, allModules) {
                 mod: igGauges
                 }
             ];
+
+            {{shared}}
+    
+            var library = null;
+            var currJson = "";
+            var validator = null;
+            var old = igCore.EnumUtil.parse;
+            var newParse = function(type, value, ignoreCase) {
+            try {
+            return old(type, value, ignoreCase);
+            } catch (e) {
+            return 0;
+            }
+            };
+            igCore.EnumUtil.parse = newParse;
     
             var modules = [];
             for (var key in igCharts) {
@@ -308,6 +402,14 @@ function loadEventHandler(key, handlerText, allModules) {
             window.addEventListener("message", (ev) => {
             console.log("got message");
             console.log(ev);
+            if (ev.data && ev.data.type && ev.data.type == "export") {
+                doExport(ev.data.platform, currJson, library, ev.data.folderTemplate);
+                return;
+            }
+            if (ev.data.indexOf("setImmediate") >= 0) {
+                return;
+            }
+            currJson = ev.data; 
             cr.loadJson(ev.data, (c) => {
             if (c == "content") {
             return cont;
@@ -397,6 +499,10 @@ function loadEventHandler(key, handlerText, allModules) {
 
     sendJson(json: string) {
         this._frameElement.contentWindow?.postMessage(json);
+    }
+
+    sendExportMessage(platform: string, folderTemplate: string) {
+        this._frameElement.contentWindow?.postMessage({ "type": "export", "platform": platform, "folderTemplate": folderTemplate });
     }
 
     loadSurface(specificVersion?: string) {

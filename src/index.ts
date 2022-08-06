@@ -3,7 +3,11 @@ import { EditorManager } from './EditorManager';
 import * as schemaJson from "./data/igSchema.json";
 import { ContentManager } from './ContentManager';
 
+import 'igniteui-webcomponents/themes/dark/bootstrap.css'
+import { defineAllComponents, IgcDropdownComponent } from 'igniteui-webcomponents';
+import { ExportManager } from './ExportManager';
 
+defineAllComponents();
 
 console.log("test");
 
@@ -45,3 +49,7 @@ if (urlParams.has("gist")) {
         });
     });
 }
+
+var exportElement = document.getElementById("export") as IgcDropdownComponent;
+
+let manager = new ExportManager(exportElement, editorManager, contentManager);

@@ -208,6 +208,10 @@ export class EditorManager
         this._editor?.getModel()?.setValue(content);
     }
 
+    public getCurrentContent(): string {
+        return this._editor?.getModel()?.getValue()!;
+    }
+
     public onEditorChanged: ((content: string) => void) | null = null;
 
     public loadEditors(schema: any): void {
