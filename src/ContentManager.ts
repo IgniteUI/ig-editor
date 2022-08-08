@@ -175,6 +175,7 @@ function doExport(platform, code, library, folderTemplate) {
     if (!window.$oldSetProp) {
         window.$oldSetProp = igCore.CodeGenerationRendererAdapter.prototype.setPropertyValue;
         window.$oldSetOrUpdate = igCore.CodeGenerationRendererAdapter.prototype.setOrUpdateCollectionOnTarget;
+        
         patching = true;
     }
 
@@ -186,6 +187,7 @@ function doExport(platform, code, library, folderTemplate) {
     };
 
     if (patching) {
+        //TODO: remove all these patches when the issue is fixed in prod.
         var patched = function (target, propertyName, propertyMetadata, value, oldValue, sourceRef) {
             if (target && target.$type && target.$type.name != 'CodeGenerationItemBuilder') {
                 window.$oldSetProp.call(this, target, toCamel(propertyName), propertyMetadata, value, oldValue, sourceRef);
@@ -214,6 +216,19 @@ function doExport(platform, code, library, folderTemplate) {
         };
         igCore.CodeGenerationRendererAdapter.prototype.setPropertyValue = patched;
         igCore.CodeGenerationRendererAdapter.prototype.setOrUpdateCollectionOnTarget = patchedSetOrUpdate;
+
+
+        igCore.CodeGeneratingComponentRenderer.prototype.by = function (color) {
+            var b = new igCore.Brush();
+            b.fill = color;
+            return b.color;
+        }
+
+        igCore.CodeGeneratingComponentRenderer.prototype.bx = function (color) {
+            var b = new igCore.Brush();
+            b.fill = color;
+            return b;
+        }
     }
 
     gen.loadCodeJson(code);
