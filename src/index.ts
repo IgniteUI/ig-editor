@@ -25,9 +25,12 @@ editorManager.onEditorChanged = (newContent) => {
     }
 }
 
+let frameContainer = document.getElementById("frameContainer");
 let contentFrame = document.getElementById("contentFrame");
 
-let contentManager = new ContentManager(contentFrame as HTMLIFrameElement);
+var platformElement = document.getElementById("platform") as IgcDropdownComponent;
+
+let contentManager = new ContentManager(frameContainer as HTMLDivElement, platformElement);
 contentManager.loadSurface();
 
 let urlParams = new URLSearchParams(window.location.search);

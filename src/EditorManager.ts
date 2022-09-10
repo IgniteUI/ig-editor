@@ -419,6 +419,7 @@ export class EditorManager
                 //var msg = JSON.parse(ev.data);
                 var msg = ev.data;
                 if (msg.type == "ready" && this._editor) {
+                    console.log("got ready message");
                     var editorContent = this._editor!.getValue();
                     if (this.isJsonString(editorContent)) {
                         if (this.onEditorChanged) {
