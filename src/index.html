@@ -54,7 +54,7 @@
             margin: 5px;
         }
 
-        #export {
+        #export, #platform {
             margin: 5px;
         }
     </style>  
@@ -71,6 +71,12 @@
                 <igc-dropdown-item>React</igc-dropdown-item>
                 <igc-dropdown-item>Web Components</igc-dropdown-item>
                 <igc-dropdown-item>Blazor</igc-dropdown-item>
+            </igc-dropdown>
+            <igc-dropdown id="platform" style="display: inline-block;" size="small">
+                <igc-button slot="target" size="small">Preview Platform</igc-button>
+                <igc-dropdown-item>Angular</igc-dropdown-item>
+                <igc-dropdown-item>React</igc-dropdown-item>
+                <igc-dropdown-item>Web Components</igc-dropdown-item>
             </igc-dropdown>
         </div>
         <div id="container"></div>
