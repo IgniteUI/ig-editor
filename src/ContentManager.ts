@@ -657,6 +657,12 @@ function doExport(platform, code, library, folderTemplate) {
 
         igWC.defineAllComponents();
 
+        let oldReplace = igCore.IgxComponentRendererContainerComponent.prototype.replaceRootItem;
+        igCore.IgxComponentRendererContainerComponent.prototype.replaceRootItem = function (t, continueActions) {
+            oldReplace.call(this, t, continueActions);
+            this._currentRootRef.changeDetectorRef.detectChanges();
+        };
+
         {{shared}}
 
         var library = null;
