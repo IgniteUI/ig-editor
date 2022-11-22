@@ -6,7 +6,7 @@
 `,`
 `).split(`
 `);for(let e=0;e<d.length;e++){if(e==d.length-1&&d[e].length==0)continue;let c=d[e];e>0&&(_+=g),_+=c+`\r
-`}return _.toString()}getImportsContent(k,v){return k.hasPackageImports?k.packageImportsToString():k.usingsToString()}replaceContent(k,v,o,s){return k=new gt("(?:(<!--)|(\\/\\/))\\s*insert "+v+"(?:(\\s*-->)?)[\\w\\W\\r\\n]*?(?:(<!--)|(\\/\\/))\\s*end "+v+"(?:(\\s*-->)?)((\\r\\n)|(\\n))").execute(k,(h,f,g)=>(o!=null&&o.length>0&&(o=this.adjustContentTabbing(o,k,f,s)),o)),k}download(){let k=new Tt.default;for(var v=0;v<this._fileOutputs.length;v++)k.file(this._filePaths[v],this._fileOutputs[v]);k.generateAsync({type:"blob"}).then(function(o){Ft.default.saveAs(o,"download.zip")})}};window.Exporter=St;})();
+`}return _.toString()}getImportsContent(k,v){return k.hasPackageImports?k.packageImportsToString():k.usingsToString()}replaceContent(k,v,o,s){return k=new gt("(?:(<!--)|(\\/\\/))\\s*insert "+v+"(?:(\\s*-->)?)[\\w\\W\\r\\n]*?(?:(<!--)|(\\/\\/))\\s*end "+v+"(?:(\\s*-->)?)((\\r\\n)|(\\n))").execute(k,(h,f,g)=>(o!=null&&o.length>0&&(o=this.adjustContentTabbing(o,k,f,s)),o)),k}download(){let k=new Tt.default;for(var v=0;v<this._fileOutputs.length;v++)k.file(this._filePaths[v],this._fileOutputs[v]);k.generateAsync({type:"blob"}).then(function(o){Ft.default.saveAs(o,"download.zip")})}};global.Exporter=St;})();
 /*!
 
 JSZip v3.10.1 - A JavaScript class for generating and reading zip files
