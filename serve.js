@@ -15,7 +15,7 @@ const workerEntryPoints = [
 require("esbuild").build({
     logLevel: "info",
     entryPoints: ["src/index.ts",
-    "src/Exporter.ts",
+    "src/ig-editor-lib/src/Exporter.ts",
     ...workerEntryPoints],
     entryNames: "[name]",
     bundle: true,

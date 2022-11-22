@@ -1,11 +1,11 @@
 import { DataChartDescription } from 'igniteui-webcomponents-core';
-import { EditorManager } from './EditorManager';
-import * as schemaJson from "./data/igSchema.json";
-import { ContentManager } from './ContentManager';
+import { EditorManager } from './ig-editor-lib/src/EditorManager';
+import * as schemaJson from "./ig-editor-lib/src/data/igSchema.json";
+import { ContentManager } from './ig-editor-lib/src/ContentManager';
 
 import 'igniteui-webcomponents/themes/dark/bootstrap.css'
 import { defineAllComponents, IgcDropdownComponent } from 'igniteui-webcomponents';
-import { ExportManager } from './ExportManager';
+import { ExportManager } from './ig-editor-lib/src/ExportManager';
 
 defineAllComponents();
 
