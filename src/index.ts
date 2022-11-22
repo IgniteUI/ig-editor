@@ -1,5 +1,5 @@
 import { DataChartDescription } from 'igniteui-webcomponents-core';
-import { EditorManager } from './ig-editor-lib/src/EditorManager';
+import { EditorManager } from './EditorManager';
 import * as schemaJson from "./ig-editor-lib/src/data/igSchema.json";
 import { ContentManager } from './ig-editor-lib/src/ContentManager';
 
