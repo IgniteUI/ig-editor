@@ -95,6 +95,12 @@
                 });
             });
         }
+
+        if (window.top) {
+            window.top.postMessage({
+                message: "ready"
+            }, "*");
+        }
     </script>
 </body>
 </html>
