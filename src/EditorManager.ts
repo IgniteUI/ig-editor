@@ -412,8 +412,8 @@ export class EditorManager
         this._editorContainer = editorContainer;
 
         window.addEventListener("message", (ev) => {
-            //console.log("received message")
-            //console.log(ev)
+            console.log("received message")
+            console.log(ev)
             if (ev.data) {
                 //var msg = JSON.parse(ev.data);
                 var msg = ev.data;

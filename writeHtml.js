@@ -2,8 +2,10 @@ const fs = require("fs");
 
 let distFolder = "./dist";
 let indexFile = "./src/index.html";
+let revealFrame = "./src/revealFrame.html";
 
 let file = fs.readFileSync(indexFile).toString();
+let other = fs.readFileSync(revealFrame).toString();
 
 let scripts = ``;
 
@@ -25,3 +27,4 @@ collectScripts(distFolder);
 let replaced = file.replace(/@@@insert/gm, scripts);
 
 fs.writeFileSync("./dist/index.html", replaced);
+fs.writeFileSync("./dist/revealFrame.html", other);
