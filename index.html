@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        html, body {
+        html, body, #allContent {
             width: 100%;
             height: 100%;
             margin: 0px;
@@ -61,33 +61,34 @@
     <link rel="stylesheet" type="text/css" href="index.css" />
 </head>
 <body>
-    <div id="mainContent">
-        <div id="topBar">
-            <img class="ig-logo" src="https://static.infragistics.com/marketing/Website/General/Infragistics-horizontal.svg" alt="Infragistics logo">
-            <igc-dropdown id="export" style="display: inline-block;" size="small">
-                <igc-button slot="target" size="small">Export</igc-button>
-                <igc-dropdown-item>WPF</igc-dropdown-item>
-                <igc-dropdown-item>Angular</igc-dropdown-item>
-                <igc-dropdown-item>React</igc-dropdown-item>
-                <igc-dropdown-item>Web Components</igc-dropdown-item>
-                <igc-dropdown-item>Blazor</igc-dropdown-item>
-            </igc-dropdown>
-            <igc-dropdown id="platform" style="display: inline-block;" size="small">
-                <igc-button slot="target" size="small">Preview Platform</igc-button>
-                <igc-dropdown-item>Angular</igc-dropdown-item>
-                <igc-dropdown-item>React</igc-dropdown-item>
-                <igc-dropdown-item>Web Components</igc-dropdown-item>
-            </igc-dropdown>
-        </div>
-        <div id="container"></div>
+    <div id="allContent" style="display: none;">
+        <div id="mainContent">
+            <div id="topBar">
+                <img class="ig-logo" src="https://static.infragistics.com/marketing/Website/General/Infragistics-horizontal.svg" alt="Infragistics logo">
+                <igc-dropdown id="export" style="display: inline-block;" size="small">
+                    <igc-button slot="target" size="small">Export</igc-button>
+                    <igc-dropdown-item>WPF</igc-dropdown-item>
+                    <igc-dropdown-item>Angular</igc-dropdown-item>
+                    <igc-dropdown-item>React</igc-dropdown-item>
+                    <igc-dropdown-item>Web Components</igc-dropdown-item>
+                    <igc-dropdown-item>Blazor</igc-dropdown-item>
+                </igc-dropdown>
+                <igc-dropdown id="platform" style="display: inline-block;" size="small">
+                    <igc-button slot="target" size="small">Preview Platform</igc-button>
+                    <igc-dropdown-item>Angular</igc-dropdown-item>
+                    <igc-dropdown-item>React</igc-dropdown-item>
+                    <igc-dropdown-item>Web Components</igc-dropdown-item>
+                </igc-dropdown>
+            </div>
+            <div id="container"></div>
 
-        <div id="frameContainer">
-            <iframe id="contentFrame">
+            <div id="frameContainer">
+                <iframe id="contentFrame" frameBorder="0">
 
-            </iframe>
+                </iframe>
+            </div>
         </div>
     </div>
-
     <script src="Exporter.js"></script>
 <script src="index.js"></script>
 

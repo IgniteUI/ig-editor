@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html, body, #allContent, #contentFrame {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            overflow: hidden;
+        }
+    </style>  
+    <link rel="stylesheet" type="text/css" href="index.css" />
+</head>
+<body>
+    <div id="allContent">
+        <iframe id="contentFrame" src="index.html?editorHidden=true" frameBorder="0">
+
+        </iframe>
+    </div>
+    <script type="text/javascript">
+        let urlParams = new URLSearchParams(window.location.search);
+        let contentFrame = document.getElementById("contentFrame");
+        let jsonContent = null;
+        let revealData = null;
+
+        function ingestData(data) {
+            let ret = [];
+            for (var i = 0; i < data.data.length; i++) {
+                let item = data.data[i];
+                let retItem = {};
+                ret.push(retItem);
+                for (var j = 0; j < data.metadata.columns.length; j++) {
+                    let header = data.metadata.columns[j].name;
+
+                    retItem[header] = item[j];
+                }
+            }
+            revealData = ret;
+        }
+
+        window.addEventListener("message", (ev) => {
+            let msg = ev.data;
+            if (msg && msg.type == "editorReady") {
+                if (ready()) {
+                    sendJsonContent();
+                }
+            }
+            if (!msg.type && msg.metadata) {
+                ingestData(msg);
+            }
+        });
+
+        function ready() {
+            return jsonContent !== null && revealData !== null;
+        }
+        function sendJsonContent() { 
+            if (ready()) {
+                let contentObj = JSON.parse(jsonContent);
+                if (!contentObj.refs) {
+                    contentObj.refs = {};
+                }
+                contentObj.refs["data"] = revealData;
+                let json = JSON.stringify(contentObj);
+
+                contentFrame.contentWindow.postMessage({
+                        type: "editorJson",
+                        editorJson: json
+                });
+            }
+        }
+        function processJsonContent(jsonTxt) {
+            jsonContent = jsonTxt;
+
+            sendJsonContent();
+        }
+        if (urlParams.has("github")) {
+            let myParam = urlParams.get('github');
+            myParam = "https://raw.githubusercontent.com/" + myParam;
+            fetch(myParam).then((res) => {
+                res.text().then(txt => {
+                    processJsonContent(txt);
+                });
+            });
+        }
+        if (urlParams.has("gist")) {
+            let myParam = urlParams.get('gist');
+            myParam = "https://gist.githubusercontent.com/" + myParam;
+            fetch(myParam).then((res) => {
+                res.text().then(txt => {
+                    processJsonContent(txt);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
