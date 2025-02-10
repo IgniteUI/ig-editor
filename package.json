@@ -21,7 +21,7 @@
   "homepage": "https://github.com/IgniteUI/ig-editor#readme",
   "devDependencies": {
     "@types/file-saver": "^2.0.5",
-    "esbuild": "^0.14.51"
+    "esbuild": "^0.25.0"
   },
   "dependencies": {
     "file-saver": "^2.0.5",
